@@ -27,6 +27,7 @@
 - `patches/librewolf/ui-patches/remove-cfrprefs.patch` - **FIXED** - Updated for Firefox 142 dynamic settings system (removes CFR preferences from main.js config)
 - `patches/librewolf/ui-patches/remove-organization-policy-banner.patch` - Applied with 8-line offset
 - `patches/camoufox-branding.patch` - Added new patch to fix the MOZ_APP_VENDOR, MOZ_APP_PROFILE build error by adapting to Firefox 142's configuration system changes (Bug 1898177), following the "broken patch" workflow for creating patches.
+- `patches/config.patch` - **FIXED (macOS compatibility)** - Updated patch context for Firefox 142 build system changes. Firefox added two new SPHINX_TREES entries (`content-security` and `jsloader`) to root `moz.build`, shifting line numbers from 220 to 232. Old patch context expected `update-infrastructure` as last SPHINX_TREES entry, but new context includes the additional entries. This caused BSD patch (macOS default) to fail due to strict context matching, while GNU patch succeeded with fuzzy matching. Regenerated patch with correct Firefox 142 context - now applies cleanly with both BSD and GNU patch.
 - `patches/webgl-spoofing.patch` - **FIXED** - Added explicit `static_cast<uint8_t>()` casts for GetShaderPrecisionFormat to fix narrowing conversion errors (Firefox 142 changed ShaderPrecisionFormat fields to uint8_t while MaskConfig returns int32_t)
 
 ✅ **Removed/Obsolete Patches:**
