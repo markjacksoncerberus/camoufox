@@ -26,7 +26,11 @@ In addition, it will also calculate your target geolocation, timezone, and local
 First, install the `camoufox` package:
 
 ```bash
-pip install -U camoufox[geoip]
+# Install from latest release wheel (fastest)
+pip install https://github.com/coryking/camoufox/releases/download/v142.0.1-fork.27/camoufox-0.4.12-py3-none-any.whl[geoip]
+
+# Or install from git (slower)
+pip install "git+https://github.com/coryking/camoufox.git@v142.0.1-fork.27#subdirectory=pythonlib[geoip]"
 ```
 
 The `geoip` parameter is optional, but heavily recommended if you are using proxies. It will download an extra dataset to determine the user's longitude, latitude, timezone, country, & locale.

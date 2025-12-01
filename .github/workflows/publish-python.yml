@@ -1,0 +1,72 @@
+name: Build and Publish Python Package
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build-wheel:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine poetry
+
+      - name: Build wheel
+        working-directory: ./pythonlib
+        run: |
+          python -m build --wheel --sdist
+          
+      - name: Check distribution
+        working-directory: ./pythonlib
+        run: |
+          twine check dist/*
+          ls -lh dist/
+
+      - name: Upload wheel as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-package
+          path: pythonlib/dist/*
+          retention-days: 5
+
+  publish-release:
+    needs: build-wheel
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    if: startsWith(github.ref, 'refs/tags/')
+    
+    steps:
+      - name: Download wheel artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package
+          path: python-dist
+
+      - name: Display structure of downloaded files
+        run: ls -R python-dist/
+
+      - name: Create/Update Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: python-dist/*
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

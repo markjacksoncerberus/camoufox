@@ -32,10 +32,14 @@ Camoufox is an open source anti-detect browser for robust fingerprint injection 
 
 **Install the Python package (recommended):**
 ```bash
+# Install from latest release (fastest)
+pip install https://github.com/coryking/camoufox/releases/download/v142.0.1-fork.27/camoufox-0.4.12-py3-none-any.whl
+
+# Or install from git (slower)
 pip install git+https://github.com/coryking/camoufox.git@v142.0.1-fork.27#subdirectory=pythonlib
 ```
 
-**Or download pre-built binaries:** [Releases](https://github.com/coryking/camoufox/releases)
+**Or download pre-built browser binaries:** [Releases](https://github.com/coryking/camoufox/releases)
 
 ### Upgrading from Firefox 135 or Earlier
 
@@ -45,7 +49,10 @@ If you're currently using the original `daijro/camoufox` or an older version:
 # Uninstall old version
 pip uninstall camoufox -y
 
-# Install Firefox 142 from this fork
+# Install Firefox 142 from this fork (fastest - using pre-built wheel)
+pip install https://github.com/coryking/camoufox/releases/download/v142.0.1-fork.27/camoufox-0.4.12-py3-none-any.whl
+
+# Or install from git (slower)
 pip install git+https://github.com/coryking/camoufox.git@v142.0.1-fork.27#subdirectory=pythonlib
 ```
 
